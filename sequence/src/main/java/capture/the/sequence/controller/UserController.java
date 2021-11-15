@@ -4,6 +4,7 @@ import capture.the.sequence.dto.ResponseDTO;
 import capture.the.sequence.dto.UserDTO;
 import capture.the.sequence.model.Groups;
 import capture.the.sequence.model.UserEntity;
+import capture.the.sequence.security.TokenProvider;
 import capture.the.sequence.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
 public class UserController {
 
     private final UserService userService;
+    private final TokenProvider tokenProvider;
     private final PasswordEncoder passwordEncoder;
 
 //    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -55,6 +57,32 @@ public class UserController {
         } catch (Exception e) {
 
             ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
+            return ResponseEntity
+                    .badRequest()
+                    .body(responseDTO);
+        }
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
+        UserEntity user = userService.getByCredentials(
+                userDTO.getEmail(),
+                userDTO.getPassword(),
+                passwordEncoder);
+
+        if(user != null) {
+            // 토큰 생성
+            final String token = tokenProvider.create(user);
+            final UserDTO responseUserDTO = UserDTO.builder()
+                    .email(user.getEmail())
+                    .id(user.getId())
+                    .token(token)
+                    .build();
+            return ResponseEntity.ok().body(responseUserDTO);
+        } else {
+            ResponseDTO responseDTO = ResponseDTO.builder()
+                    .error("Login failed.")
+                    .build();
             return ResponseEntity
                     .badRequest()
                     .body(responseDTO);
