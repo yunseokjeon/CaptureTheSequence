@@ -9,13 +9,13 @@ import capture.the.sequence.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -70,7 +70,7 @@ public class UserController {
                 userDTO.getPassword(),
                 passwordEncoder);
 
-        if(user != null) {
+        if (user != null) {
             // 토큰 생성
             final String token = tokenProvider.create(user);
             final UserDTO responseUserDTO = UserDTO.builder()
@@ -87,6 +87,18 @@ public class UserController {
                     .badRequest()
                     .body(responseDTO);
         }
+    }
+
+    @GetMapping("/getAllUerList")
+    public ResponseEntity<?> getAllUserList(@AuthenticationPrincipal String userId) {
+        System.out.println("userId = " + userId);
+        System.out.println("user email  = " + userService.getUserByEmail(userId).getEmail());
+
+        List<UserDTO> userList = userService.getAllUserList();
+
+        ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().data(userList).build();
+        return ResponseEntity.ok(response);
+
     }
 
 }
