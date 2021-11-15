@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -19,8 +20,11 @@ public class UserEntity {
     @Id
     @GeneratedValue(generator = "USER_GENERATOR")
     @GenericGenerator(name = "USER_GENERATOR", strategy = "uuid")
-    private String id; //유저에게 부여되는 고유 id
-    private String username;
-    private String email;
-    private String password;
+    private java.lang.String id; //유저에게 부여되는 고유 id
+    private java.lang.String username;
+    private java.lang.String email;
+    private java.lang.String password;
+    private LocalDateTime created_at;
+    private boolean approved;
+//    private Groups groups;
 }
