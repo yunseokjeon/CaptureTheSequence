@@ -1,14 +1,27 @@
 import React from "react";
+import { connect } from 'react-redux';
+import { Navigate, Route } from 'react-router-dom';
 
-const HomeContainer = () => {
+const HomeContainer = ({ loginStatus }) => {
 
     console.log("HomeContainer");
 
     return (
-        <div>
-            Hello World
-        </div>
+        loginStatus ? (
+            <div>
+                Hello World
+            </div>
+        ) :
+            (
+                <Navigate to="/login" />
+            )
     );
 };
 
-export default HomeContainer;
+const mapStateToProps = state => ({
+    loginStatus: state.authentication.loginStatus,
+});
+
+export default connect(
+    mapStateToProps,
+)(HomeContainer);
