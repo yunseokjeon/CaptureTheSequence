@@ -7,23 +7,22 @@ import store from '../modules/store';
 
 const HomeContainer = ({ loginStatus, login, logout }) => {
 
-    console.log("HomeContainer");
     console.log(localStorage.getItem('ACCESS_TOKEN'));
-   
-    if (localStorage.getItem('ACCESS_TOKEN') != null) {
-        console.log('HomeContainer1 : ' + loginStatus);
-        login();
-        console.log('HomeContainer2 : ' + loginStatus);
+
+    if (loginStatus === false && localStorage.getItem('ACCESS_TOKEN') !== null) {
+        // login();
+        loginStatus = true;
+
     }
 
- 
+
     return (
-        loginStatus
-         ? (
-            <div>
-                Hello World
-            </div>
-        ) :
+        loginStatus === true
+            ? (
+                <div>
+                    Hello World
+                </div>
+            ) :
             (
                 <Navigate to="/login" />
             )
