@@ -1,5 +1,6 @@
 package capture.the.sequence.controller;
 
+import capture.the.sequence.model.UserCategory;
 import capture.the.sequence.model.UserEntity;
 import capture.the.sequence.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,7 @@ public class InitMember {
                     .password(passwordEncoder.encode("1234"))
                     .created_at(LocalDateTime.now())
                     .approved(true)
-//                    .groups(Groups.GENERAL)
+                    .userCategory(UserCategory.ADMIN)
                     .build();
             userService.create(user);
 

@@ -55,6 +55,7 @@ public class UserService {
             userDTO.setEmail(userEntity.getEmail());
             userDTO.setCreated_at(userEntity.getCreated_at());
             userDTO.setApproved(userEntity.isApproved());
+            userDTO.setUserCategory(userEntity.getUserCategory());
             userDTO.setId(userEntity.getId());
             userDtoList.add(userDTO);
         }

@@ -1,5 +1,5 @@
 package capture.the.sequence.model;
 
-public enum Groups {
+public enum UserCategory {
     ADMIN, GENERAL
 }

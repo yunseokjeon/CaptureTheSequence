@@ -2,7 +2,7 @@ package capture.the.sequence.controller;
 
 import capture.the.sequence.dto.ResponseDTO;
 import capture.the.sequence.dto.UserDTO;
-import capture.the.sequence.model.Groups;
+import capture.the.sequence.model.UserCategory;
 import capture.the.sequence.model.UserEntity;
 import capture.the.sequence.security.TokenProvider;
 import capture.the.sequence.service.UserService;
@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -39,7 +38,7 @@ public class UserController {
                     .password(passwordEncoder.encode(userDTO.getPassword()))
                     .created_at(LocalDateTime.now())
                     .approved(false)
-//                    .groups(Groups.GENERAL)
+                    .userCategory(UserCategory.GENERAL)
                     .build();
 
             UserEntity registeredUser = userService.create(user);
@@ -50,7 +49,7 @@ public class UserController {
                     .username(registeredUser.getUsername())
                     .created_at(registeredUser.getCreated_at())
                     .approved(registeredUser.isApproved())
-//                    .groups(registeredUser.getGroups())
+                    .userCategory(registeredUser.getUserCategory())
                     .build();
 
             return ResponseEntity.ok(responseUserDTO);
@@ -74,6 +73,9 @@ public class UserController {
             // 토큰 생성
             final String token = tokenProvider.create(user);
             final UserDTO responseUserDTO = UserDTO.builder()
+                    .username(user.getUsername())
+                    .approved(user.isApproved())
+                    .userCategory(user.getUserCategory())
                     .email(user.getEmail())
                     .id(user.getId())
                     .token(token)

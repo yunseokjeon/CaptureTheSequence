@@ -1,6 +1,6 @@
 package capture.the.sequence.dto;
 
-import capture.the.sequence.model.Groups;
+import capture.the.sequence.model.UserCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +19,6 @@ public class UserDTO {
     private String password;
     private LocalDateTime created_at;
     private boolean approved;
-//    private Groups groups;
+    private UserCategory userCategory;
     private String id;
 }
