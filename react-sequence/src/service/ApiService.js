@@ -59,9 +59,15 @@ export function signin(userDTO) {
         if (response.token) {
             // 로컬 스토리지에 토큰 저장
             localStorage.setItem(ACCESS_TOKEN, response.token);
+            localStorage.setItem("SequenceEmail", response.email);
             window.location.href = "/";
         }
     });
-    
+
 }
+
+export function signup(userDTO) {
+    return call("/auth/signup", "POST", userDTO);
+}
+
 

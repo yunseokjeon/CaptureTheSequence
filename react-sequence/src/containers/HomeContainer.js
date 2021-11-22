@@ -8,6 +8,7 @@ import store from '../modules/store';
 const HomeContainer = ({ loginStatus, login, logout }) => {
 
     console.log(localStorage.getItem('ACCESS_TOKEN'));
+    console.log(localStorage.getItem('SequenceEmail'));
 
     if (loginStatus === false && localStorage.getItem('ACCESS_TOKEN') !== null) {
         // login();
