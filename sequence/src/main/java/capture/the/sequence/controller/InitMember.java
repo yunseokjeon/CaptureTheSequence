@@ -50,6 +50,21 @@ public class InitMember {
                     .build();
             userService.create(user);
 
+            for (int i = 1; i <= 5; i++) {
+                String email = "init" + i + "@hello.com";
+                String username = "init_" + i;
+
+                UserEntity insert = UserEntity.builder()
+                        .email(email)
+                        .username(username)
+                        .password(passwordEncoder.encode("1234"))
+                        .created_at(LocalDateTime.now())
+                        .approved(i % 2 == 0 ? true : false)
+                        .userCategory(UserCategory.GENERAL)
+                        .build();
+                userService.create(insert);
+            }
+
 
         }
     }

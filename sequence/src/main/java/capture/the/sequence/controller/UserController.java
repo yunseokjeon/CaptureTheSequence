@@ -94,13 +94,51 @@ public class UserController {
     @GetMapping("/getAllUerList")
     public ResponseEntity<?> getAllUserList(@AuthenticationPrincipal String userId) {
         System.out.println("userId = " + userId);
-        System.out.println("user email  = " + userService.getUserByEmail(userId).getEmail());
+        System.out.println("user email  = " + userService.getUserById(userId).getEmail());
+
+        if (userService.getUserById(userId).getUserCategory() != UserCategory.ADMIN) {
+            ResponseDTO responseDTO = ResponseDTO.builder().error("You are not ADMIN").build();
+            return ResponseEntity.badRequest().body(responseDTO);
+        }
 
         List<UserDTO> userList = userService.getAllUserList();
 
         ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().data(userList).build();
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/activateAccount")
+    public ResponseEntity<?> activateAccount(@AuthenticationPrincipal String userId, @RequestBody UserDTO userDTO) {
+
+        System.out.println("userId = " + userId + ", userDTO = " + userDTO);
+
+        if (userService.getUserById(userId).getUserCategory() != UserCategory.ADMIN) {
+            ResponseDTO responseDTO = ResponseDTO.builder().error("You are not ADMIN").build();
+            return ResponseEntity.badRequest().body(responseDTO);
+        }
+
+        try {
+            UserEntity userEntity = userService.activateAccount(userDTO.getEmail());
+
+            UserDTO responseUserDTO = UserDTO.builder()
+                    .email(userEntity.getEmail())
+                    .id(userEntity.getId())
+                    .username(userEntity.getUsername())
+                    .created_at(userEntity.getCreated_at())
+                    .approved(userEntity.isApproved())
+                    .userCategory(userEntity.getUserCategory())
+                    .build();
+
+            return ResponseEntity.ok(responseUserDTO);
+        } catch (Exception e) {
+
+            ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
+            return ResponseEntity
+                    .badRequest()
+                    .body(responseDTO);
+        }
 
     }
+
 
 }
