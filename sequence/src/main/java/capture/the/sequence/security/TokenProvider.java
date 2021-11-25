@@ -21,9 +21,17 @@ public class TokenProvider {
 
     public String create(UserEntity userEntity) {
         // 기한 지금으로부터 1일로 설정
+
         Date expiryDate = Date.from(
                 Instant.now()
                         .plus(1, ChronoUnit.DAYS));
+
+        /*
+        Date expiryDate = Date.from(
+                Instant.now()
+                        .plus(1, ChronoUnit.MINUTES));
+
+         */
 
 		/*
 		{ // header
@@ -64,4 +72,6 @@ public class TokenProvider {
 
         return claims.getSubject();
     }
+
+
 }
