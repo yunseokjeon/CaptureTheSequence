@@ -1,13 +1,34 @@
-
 import { connect } from 'react-redux';
 import { login } from '../modules/authentication';
 import store from '../modules/store';
-
-
 import { API_BASE_URL } from "./app-config";
+import { resolvePath } from 'react-router';
+import { Sync } from '@material-ui/icons';
+
 const ACCESS_TOKEN = "ACCESS_TOKEN";
 
+
+export function signin(userDTO) {
+
+    console.log(store.getState());
+
+    return call("/auth/signin", "POST", userDTO).then((response) => {
+        if (response.token) {
+            // 로컬 스토리지에 토큰 저장
+            localStorage.setItem(ACCESS_TOKEN, response.token);
+            localStorage.setItem("SequenceEmail", response.email);
+            window.location.href = "/";
+        }
+    });
+
+}
+
+export function signup(userDTO) {
+    return call("/auth/signup", "POST", userDTO);
+}
+
 export function call(api, method, request) {
+
     let headers = new Headers({
         "Content-Type": "application/json",
     });
@@ -31,7 +52,9 @@ export function call(api, method, request) {
     return fetch(options.url, options)
         .then((response) =>
             response.json().then((json) => {
+
                 if (!response.ok) {
+                    
                     // response.ok가 true이면 정상적인 리스폰스를 받은것, 아니면 에러 리스폰스를 받은것.
                     return Promise.reject(json);
                 }
@@ -50,24 +73,10 @@ export function call(api, method, request) {
 
 
 
-
-export function signin(userDTO) {
-
-    console.log(store.getState());
-
-    return call("/auth/signin", "POST", userDTO).then((response) => {
-        if (response.token) {
-            // 로컬 스토리지에 토큰 저장
-            localStorage.setItem(ACCESS_TOKEN, response.token);
-            localStorage.setItem("SequenceEmail", response.email);
-            window.location.href = "/";
-        }
-    });
-
+export async function getAllUserList() { 
+    let result = await call("/auth/getAllUerList", "GET"); 
+    return result;
 }
 
-export function signup(userDTO) {
-    return call("/auth/signup", "POST", userDTO);
-}
 
 
