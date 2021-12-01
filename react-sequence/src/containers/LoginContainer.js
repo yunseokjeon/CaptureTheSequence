@@ -1,5 +1,3 @@
-
-
 import React from "react";
 import './LoginContainer.css';
 import { signin } from "../service/ApiService";
@@ -24,13 +22,11 @@ const handleSubmit = (event) => {
     // ApiService의 signin 메서드를 사용 해 로그인.
     signin({ email: email, password: password });
 
-
 }
 
-const LoginContainer = ({ loginStatus, login, logout }) => {
+const LoginContainer = () => {
 
-    if (localStorage.getItem('ACCESS_TOKEN') !== null) {
-        loginStatus = true;
+    if (localStorage.getItem('LOGIN_STATUS') === true) {
         window.location.href = "/";
     }
 
@@ -102,6 +98,8 @@ const LoginContainer = ({ loginStatus, login, logout }) => {
     );
 };
 
+/*
+
 const mapStateToProps = state => ({
     loginStatus: state.authentication.loginStatus,
 });
@@ -118,4 +116,6 @@ const mapDispatchToProps = dispatch => ({
 
 
 export default connect(mapStateToProps, mapDispatchToProps,)(LoginContainer);
+*/
 
+export default LoginContainer;

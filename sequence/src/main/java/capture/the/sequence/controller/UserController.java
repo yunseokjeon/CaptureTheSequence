@@ -69,7 +69,7 @@ public class UserController {
                 userDTO.getPassword(),
                 passwordEncoder);
 
-        if (user != null) {
+        if (user != null && user.isApproved()) {
             // 토큰 생성
             final String token = tokenProvider.create(user);
             final UserDTO responseUserDTO = UserDTO.builder()

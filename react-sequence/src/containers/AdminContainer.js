@@ -3,20 +3,15 @@ import React, { useLayoutEffect, useEffect, useState, useRef } from "react";
 import { useResolvedPath } from "react-router";
 import useFetchUsers from "./useFetchUsers";
 import DisplayUser from "./DisplayUser";
-
-//  export const allUserList = () => {
-//     getAllUserList().then((value) => {
-
-//         console.log('getAllUserList 먼저!!!');
-//         console.log(value);
-//         // for(var i = 0; i < value.data.length; i++) {
-//         //     var obj = value.data[i];
-//         //     console.log(obj.username);
-//         //     console.log(obj.id);
-//         // }
-//         console.log('getAllUserList 내부 실행 종료!!!');
-//     });
-
+import {
+    TextField,
+    Grid,
+    Container,
+    Typography,
+    Swith,
+    Button
+} from "@material-ui/core";
+import { signout } from "../service/ApiService";
 
 
 const AdminContainer = () => {
@@ -43,6 +38,21 @@ const AdminContainer = () => {
 
     return (
         <div>
+            <Container component="main" maxWidth="xs" style={{ marginTop: "8%" }}>
+                <Grid container spacing={2} columns={16}>
+                    <Grid item xs={2}>
+                        <Typography component="h5" variant="h5">CAPTURE THE SEQUENCE </Typography>
+                    </Grid>
+
+                    <Grid item xs={8}></Grid>
+
+                    <Grid item xs={2}><Button
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        onClick={signout}>로그아웃</Button></Grid>
+                </Grid>
+            </Container>
             {/* {JSON.stringify(users)} */}
             {users.map((user, i) => {
                 return <DisplayUser user={user} key={i} />

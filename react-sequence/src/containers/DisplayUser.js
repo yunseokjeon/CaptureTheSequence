@@ -1,34 +1,60 @@
 import { useEffect, useRef, useState } from "react";
+
 import {
     TextField,
     Grid,
     Container,
     Typography,
-    Swith
 } from "@material-ui/core";
+import Switch from '@mui/material/Switch';
+import produce from "immer";
+import { activateAccount } from "../service/ApiService";
+
+
+
 
 const DisplayUser = (inputUser) => {
+    const [user, setUser] = useState(inputUser.user);
+    const [checked, setChecked] = useState(user.approved);
 
 
-    console.log("=====================================")
-    console.log(inputUser.user.username);
-    const [user, setUser] = useState();
+    console.log(user);
 
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
+        setUser(produce(user, draft => {
+            draft.approved = event.target.checked
+        }));
+        activateAccount(user);
+    };
 
-    // const [user, setUser] = useState();
-    // useEffect(() => {
-    //     console.log('userEffect_setUser_start'); // delete
-    //     setUser(inputUser.inputUser);
-    //     console.log('userEffect_setUser_end'); // delete
-    // }, []);
-    // console.log(user);
-
-    // console.log(inputUser.inputUser);
-    //console.log('user???' + inputUser);
 
     return (
-        // <div> {user.username} </div>
-        <div> test </div>
+
+        <Grid container spacing={2}>
+            <Grid item xs={3}>
+                <Typography>
+                    {user.email}
+                </Typography>
+            </Grid>
+
+            <Grid item xs={3}>
+                <Typography variant="h6">
+                    {user.username}
+                </Typography>
+            </Grid>
+
+            <Grid item xs={4}>
+                <Typography variant="h6">
+                    {user.created_at.substring(0, 10)}
+                </Typography>
+            </Grid>
+
+            <Grid item xs={2}>
+                <Switch checked={checked}
+                    onChange={handleChange} />
+            </Grid>
+        </Grid>
     )
 }
 
