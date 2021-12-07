@@ -107,6 +107,11 @@ public class UserService {
 
     public List<PriceEntity> getPriceEntityList(UserEntity user, MultipartFile file, PriceTableCategory priceTableCategory)
             throws IOException {
+
+        log.info("================================================");
+        log.info(String.valueOf(user.getStockPriceList().size()));
+        log.info("================================================");
+
         List<PriceEntity> priceEntityList = new ArrayList<>();
 
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
@@ -149,15 +154,17 @@ public class UserService {
             user.getFuturesPriceList().addAll(priceEntityList);
         }
 
+        log.info("================================================");
+        log.info("flush and clear");
         entityManager.flush();
         entityManager.clear();
+        log.info("================================================");
 
         log.info("================================================");
         log.info(user.getStockPriceList().get(0).getItemName());
         log.info(String.valueOf(user.getStockPriceList().size()));
         log.info("================================================");
         return priceEntityList;
-
     }
 
     public void deleteDuplicatePriceItem(UserEntity user, PriceEntity litmus, PriceTableCategory priceTableCategory) {
