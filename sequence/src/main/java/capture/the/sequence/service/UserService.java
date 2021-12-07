@@ -15,7 +15,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.security.access.method.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,7 +96,7 @@ public class UserService {
         UserEntity user = userRepository.getById(userId);
         try {
             List<PriceEntity> priceEntityList = getPriceEntityList(user, file, priceTableCategory);
-            List<PriceDTO> priceDTOList = priceDtoToPriceEntity(priceEntityList);
+            List<PriceDTO> priceDTOList = priceEntityToPriceDTO(priceEntityList);
             return priceDTOList;
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -218,7 +217,7 @@ public class UserService {
         }
     }
 
-    public List<PriceDTO> priceDtoToPriceEntity(List<PriceEntity> priceEntityList) {
+    public List<PriceDTO> priceEntityToPriceDTO(List<PriceEntity> priceEntityList) {
         List<PriceDTO> priceDTOList = new ArrayList<>();
         for (PriceEntity priceEntity : priceEntityList) {
             PriceDTO priceDTO = PriceDTO.builder()
