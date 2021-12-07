@@ -111,6 +111,25 @@ public class UserService {
         log.info("================================================");
         log.info(String.valueOf(user.getStockPriceList().size()));
         log.info("================================================");
+        /*
+        2021-12-07 16:02:33.633  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : ================================================
+        Hibernate:
+            select
+                stockprice0_.user_id as user_id6_0_0_,
+                stockprice0_.price_id as price_id1_0_0_,
+                stockprice0_.price_id as price_id1_0_1_,
+                stockprice0_.closing_price as closing_2_0_1_,
+                stockprice0_.item_name as item_nam3_0_1_,
+                stockprice0_.market_date as market_d4_0_1_,
+                stockprice0_.starting_price as starting5_0_1_,
+                stockprice0_.user_id as user_id6_0_1_
+            from
+                price_entity stockprice0_
+            where
+                stockprice0_.user_id=?
+        2021-12-07 16:02:33.637  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : 0
+        2021-12-07 16:02:33.637  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : ================================================
+         */
 
         List<PriceEntity> priceEntityList = new ArrayList<>();
 
@@ -156,7 +175,7 @@ public class UserService {
 
         log.info("================================================");
         log.info("flush and clear");
-        entityManager.flush();
+        entityManager.flush(); // update command is not started.
         entityManager.clear();
         log.info("================================================");
 
@@ -164,6 +183,17 @@ public class UserService {
         log.info(user.getStockPriceList().get(0).getItemName());
         log.info(String.valueOf(user.getStockPriceList().size()));
         log.info("================================================");
+
+        /*
+        2021-12-07 16:02:33.825  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : ================================================
+        2021-12-07 16:02:33.825  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : flush and clear
+        2021-12-07 16:02:33.828  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : ================================================
+        2021-12-07 16:02:33.828  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : ================================================
+        2021-12-07 16:02:33.828  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : TSLA
+        2021-12-07 16:02:33.828  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : 3
+        2021-12-07 16:02:33.828  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : ================================================
+         */
+
         return priceEntityList;
     }
 
