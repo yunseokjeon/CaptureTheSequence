@@ -8,6 +8,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -20,6 +22,7 @@ public class UserEntity {
     @Id
     @GeneratedValue(generator = "USER_GENERATOR")
     @GenericGenerator(name = "USER_GENERATOR", strategy = "uuid")
+    @Column(name = "user_id")
     private String id; //유저에게 부여되는 고유 id
     private String username;
     private String email;
@@ -27,4 +30,8 @@ public class UserEntity {
     private LocalDateTime created_at;
     private boolean approved;
     private UserCategory userCategory;
+    @OneToMany(mappedBy = "user")
+    private List<PriceEntity> stockPriceList = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<PriceEntity> futuresPriceList = new ArrayList<>();
 }
