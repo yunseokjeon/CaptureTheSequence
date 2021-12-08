@@ -1,6 +1,5 @@
 package capture.the.sequence.model;
 
-import capture.the.sequence.controller.PriceTableCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

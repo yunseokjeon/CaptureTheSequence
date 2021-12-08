@@ -1,6 +1,6 @@
 package capture.the.sequence.service;
 
-import capture.the.sequence.controller.PriceTableCategory;
+import capture.the.sequence.model.PriceTableCategory;
 import capture.the.sequence.dto.PriceDTO;
 import capture.the.sequence.dto.UserDTO;
 import capture.the.sequence.model.PriceEntity;
@@ -25,7 +25,6 @@ import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Slf4j
@@ -147,8 +146,9 @@ public class UserService {
 
 
         priceRepository.deleteDuplicatePriceItem(priceEntityList.get(0).getItemName(), user);
-        priceRepository.findAllByUser(user).addAll(priceEntityList);
         priceRepository.saveAll(priceEntityList);
+        user.getPriceEntityList().clear();
+        user.getPriceEntityList().addAll(priceRepository.findAllByUser(user));
 
         return priceEntityList;
     }

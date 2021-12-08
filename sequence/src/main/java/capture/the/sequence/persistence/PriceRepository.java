@@ -18,8 +18,8 @@ public interface PriceRepository extends JpaRepository<PriceEntity, Long> {
     @Query("delete from PriceEntity PE where PE.itemName = :itemName and PE.user = :user")
     void deleteDuplicatePriceItem(@Param("itemName") String itemName, @Param("user") UserEntity user);
 
-    @Query("select PE from PriceEntity PE where PE.itemName = :itemName")
-    List<PriceEntity> findAllByItemName(@Param("itemName") String itemName);
+    @Query("select PE from PriceEntity PE where PE.itemName = :itemName and PE.user = :user")
+    List<PriceEntity> findAllByItemName(@Param("itemName") String itemName, @Param("user") UserEntity user);
 
     @Query("select PE from PriceEntity PE where PE.user = :user")
     List<PriceEntity> findAllByUser(@Param("user") UserEntity user);
