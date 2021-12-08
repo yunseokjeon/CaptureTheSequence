@@ -37,15 +37,10 @@ public class FileController {
                                        @RequestParam("file") MultipartFile file,
                                        @RequestParam("priceTableCategory") PriceTableCategory priceTableCategory) throws IOException {
 
-        log.trace("readExcel");
-        log.info("user information");
-        log.info(userService.getUserById(userId).getEmail());
-
         if (userService.getUserById(userId).isApproved() == false) {
             ResponseDTO responseDTO = ResponseDTO.builder().error("You don't have authorization.").build();
             return ResponseEntity.badRequest().body(responseDTO);
         }
-
 
         try {
             List<PriceDTO> dataList = userService.readExcel(userId, file, priceTableCategory);

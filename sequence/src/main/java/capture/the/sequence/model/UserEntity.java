@@ -31,7 +31,5 @@ public class UserEntity {
     private boolean approved;
     private UserCategory userCategory;
     @OneToMany(mappedBy = "user")
-    private List<PriceEntity> stockPriceList = new ArrayList<>();
-    @OneToMany(mappedBy = "user")
-    private List<PriceEntity> futuresPriceList = new ArrayList<>();
+    private List<PriceEntity> priceEntityList = new ArrayList<>();
 }

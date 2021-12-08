@@ -1,5 +1,6 @@
 package capture.the.sequence.model;
 
+import capture.the.sequence.controller.PriceTableCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,4 +27,5 @@ public class PriceEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     UserEntity user;
+    PriceTableCategory priceTableCategory;
 }

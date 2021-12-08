@@ -6,6 +6,7 @@ import capture.the.sequence.dto.UserDTO;
 import capture.the.sequence.model.PriceEntity;
 import capture.the.sequence.model.UserCategory;
 import capture.the.sequence.model.UserEntity;
+import capture.the.sequence.persistence.PriceRepository;
 import capture.the.sequence.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PriceRepository priceRepository;
     private final EntityManager entityManager;
 
     public UserEntity create(final UserEntity userEntity) {
@@ -107,29 +109,6 @@ public class UserService {
     public List<PriceEntity> getPriceEntityList(UserEntity user, MultipartFile file, PriceTableCategory priceTableCategory)
             throws IOException {
 
-        log.info("================================================");
-        log.info(String.valueOf(user.getStockPriceList().size()));
-        log.info("================================================");
-        /*
-        2021-12-07 16:02:33.633  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : ================================================
-        Hibernate:
-            select
-                stockprice0_.user_id as user_id6_0_0_,
-                stockprice0_.price_id as price_id1_0_0_,
-                stockprice0_.price_id as price_id1_0_1_,
-                stockprice0_.closing_price as closing_2_0_1_,
-                stockprice0_.item_name as item_nam3_0_1_,
-                stockprice0_.market_date as market_d4_0_1_,
-                stockprice0_.starting_price as starting5_0_1_,
-                stockprice0_.user_id as user_id6_0_1_
-            from
-                price_entity stockprice0_
-            where
-                stockprice0_.user_id=?
-        2021-12-07 16:02:33.637  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : 0
-        2021-12-07 16:02:33.637  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : ================================================
-         */
-
         List<PriceEntity> priceEntityList = new ArrayList<>();
 
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
@@ -157,6 +136,7 @@ public class UserService {
                         .startingPrice(row.getCell(2).getNumericCellValue())
                         .closingPrice(row.getCell(3).getNumericCellValue())
                         .user(user)
+                        .priceTableCategory(priceTableCategory)
                         .build();
                 priceEntityList.add(priceEntity);
             }
@@ -165,57 +145,14 @@ public class UserService {
             throw e;
         }
 
-        deleteDuplicatePriceItem(user, priceEntityList.get(0), priceTableCategory);
-        if (priceTableCategory == PriceTableCategory.STOCK) {
-            user.getStockPriceList().addAll(priceEntityList);
-        } else if (priceTableCategory == PriceTableCategory.FUTURES) {
-            user.getFuturesPriceList().addAll(priceEntityList);
-        }
 
-        log.info("================================================");
-        log.info("flush and clear");
-        entityManager.flush(); // update command is not started.
-        entityManager.clear();
-        log.info("================================================");
-
-        log.info("================================================");
-        log.info(user.getStockPriceList().get(0).getItemName());
-        log.info(String.valueOf(user.getStockPriceList().size()));
-        log.info("================================================");
-
-        /*
-        2021-12-07 16:02:33.825  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : ================================================
-        2021-12-07 16:02:33.825  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : flush and clear
-        2021-12-07 16:02:33.828  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : ================================================
-        2021-12-07 16:02:33.828  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : ================================================
-        2021-12-07 16:02:33.828  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : TSLA
-        2021-12-07 16:02:33.828  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : 3
-        2021-12-07 16:02:33.828  INFO 1892 --- [nio-8080-exec-3] c.the.sequence.service.UserService       : ================================================
-         */
+        priceRepository.deleteDuplicatePriceItem(priceEntityList.get(0).getItemName(), user);
+        priceRepository.findAllByUser(user).addAll(priceEntityList);
+        priceRepository.saveAll(priceEntityList);
 
         return priceEntityList;
     }
 
-    public void deleteDuplicatePriceItem(UserEntity user, PriceEntity litmus, PriceTableCategory priceTableCategory) {
-        if (priceTableCategory == PriceTableCategory.STOCK) {
-            Iterator<PriceEntity> iterator = user.getStockPriceList().iterator();
-            while (iterator.hasNext()) {
-                PriceEntity price = (PriceEntity) iterator.next();
-                if (price.getItemName() == litmus.getItemName()) {
-                    iterator.remove();
-                }
-            }
-
-        } else if (priceTableCategory == PriceTableCategory.FUTURES) {
-            Iterator<PriceEntity> iterator = user.getFuturesPriceList().iterator();
-            while (iterator.hasNext()) {
-                PriceEntity price = (PriceEntity) iterator.next();
-                if (price.getItemName() == litmus.getItemName()) {
-                    iterator.remove();
-                }
-            }
-        }
-    }
 
     public List<PriceDTO> priceEntityToPriceDTO(List<PriceEntity> priceEntityList) {
         List<PriceDTO> priceDTOList = new ArrayList<>();
