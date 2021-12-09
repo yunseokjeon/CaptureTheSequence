@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAllUserList } from "../service/ApiService";
+import { getAllUserList } from "./ApiService";
 
 const useFetchUsers = () => {
     const [loading, setLoading] = useState(true);

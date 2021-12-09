@@ -80,9 +80,6 @@ export async function getAllUserList() {
 }
 
 export function signout() {
-    // localStorage.setItem(ACCESS_TOKEN, null);
-    // localStorage.setItem("SequenceEmail", null);
-    // localStorage.setItem("LOGIN_STATUS", false);
     localStorage.clear();
     window.location.href = "/";
 }

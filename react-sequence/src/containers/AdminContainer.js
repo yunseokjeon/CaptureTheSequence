@@ -1,7 +1,7 @@
 import { SettingsBackupRestoreSharp } from "@material-ui/icons";
 import React, { useLayoutEffect, useEffect, useState, useRef } from "react";
 import { useResolvedPath } from "react-router";
-import useFetchUsers from "./useFetchUsers";
+import useFetchUsers from "../service/useFetchUsers";
 import DisplayUser from "./DisplayUser";
 import {
     TextField,
