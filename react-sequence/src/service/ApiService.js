@@ -103,10 +103,11 @@ export async function sendExcel(formData) {
         'Authorization': 'Bearer ' + accessToken
     };
 
-    await axios.post(API_BASE_URL + "/file/excel/read", formData, {headers: headers}).then(res => {
-        console.log(res.data.data);
+    let result = await axios.post(API_BASE_URL + "/file/excel/read", formData, {headers: headers}).then(res => {
         return res.data.data;
     });
+
+    return result;
 
 }
 

@@ -39,6 +39,8 @@ const FileView = () => {
         setPriceTableCategory(event.target.value);
     };
 
+    const [priceObjectList, setPriceObjectList] = React.useState([]);
+    const [needPriceView, setNeedPriceView] = React.useState(false);
 
     const [selectedFile, setSelectedFile] = React.useState(null);
     const onFileChange = (event) => {
@@ -53,6 +55,8 @@ const FileView = () => {
 
         sendExcel(formData).then(res => {
             console.log(res);
+            setPriceObjectList(res);
+            setNeedPriceView(true);
         });
 
     };
@@ -86,6 +90,9 @@ const FileView = () => {
                     <button onClick={onFileUpload}>
                         Upload!
                     </button>
+                </Item>
+                <Item>
+                    {needPriceView ? JSON.stringify(priceObjectList[0]) : null}
                 </Item>
             </Stack>
         </div>
