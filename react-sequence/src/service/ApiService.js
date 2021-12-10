@@ -1,9 +1,11 @@
-import { connect } from 'react-redux';
-import { login } from '../modules/authentication';
+import {connect} from 'react-redux';
+import {login} from '../modules/authentication';
 import store from '../modules/store';
-import { API_BASE_URL } from "./app-config";
-import { resolvePath } from 'react-router';
-import { Sync } from '@material-ui/icons';
+import {API_BASE_URL} from "./app-config";
+import {resolvePath} from 'react-router';
+import {Sync} from '@material-ui/icons';
+import axios from 'axios';
+import * as React from 'react';
 
 const ACCESS_TOKEN = "ACCESS_TOKEN";
 
@@ -51,7 +53,6 @@ export function call(api, method, request) {
         });
 }
 
-
 export function signin(userDTO) {
 
     console.log(store.getState());
@@ -73,7 +74,6 @@ export function signup(userDTO) {
 }
 
 
-
 export async function getAllUserList() {
     let result = await call("/auth/getAllUerList", "GET");
     return result;
@@ -85,6 +85,28 @@ export function signout() {
 }
 
 
-export function activateAccount(userDTO){
+export function activateAccount(userDTO) {
     return call("/auth/activateAccount", "POST", userDTO);
 }
+
+export async function getPriceTableCategoryList() {
+    let result = await call("/file/getPriceTableCategoryList", "GET");
+    return result;
+}
+
+export async function sendExcel(formData) {
+
+    const accessToken = localStorage.getItem("ACCESS_TOKEN");
+
+    const headers = {
+        'Content-Type': "multipart/form-data",
+        'Authorization': 'Bearer ' + accessToken
+    };
+
+    await axios.post(API_BASE_URL + "/file/excel/read", formData, {headers: headers}).then(res => {
+        console.log(res.data.data);
+        return res.data.data;
+    });
+
+}
+
