@@ -11,6 +11,8 @@ import Select from '@mui/material/Select';
 
 import {getPriceTableCategoryList} from "../service/ApiService";
 import {sendExcel} from "../service/ApiService";
+import DisplayPrice from "./DisplayPrice";
+import produce from "immer";
 
 
 const Item = styled(Paper)(({theme}) => ({
@@ -27,7 +29,6 @@ const FileView = () => {
     React.useEffect(() => {
         getPriceTableCategoryList()
             .then((res) => {
-                console.log(res);
                 setPriceTableCatagoryList(res);
             }).catch((error) => {
         })
@@ -41,6 +42,7 @@ const FileView = () => {
 
     const [priceObjectList, setPriceObjectList] = React.useState([]);
     const [needPriceView, setNeedPriceView] = React.useState(false);
+    const [candidatesToDisplay, setCandidatesToDisplay] = React.useState([]);
 
     const [selectedFile, setSelectedFile] = React.useState(null);
     const onFileChange = (event) => {
@@ -50,15 +52,11 @@ const FileView = () => {
         let formData = new FormData();
         formData.append("file", selectedFile);
         formData.append("priceTableCategory", priceTableCategory);
-        console.log(formData.get("file"));
-        console.log(formData.get("priceTableCategory"))
 
         sendExcel(formData).then(res => {
-            console.log(res);
             setPriceObjectList(res);
             setNeedPriceView(true);
-        });
-
+        })
     };
 
 
@@ -92,7 +90,11 @@ const FileView = () => {
                     </button>
                 </Item>
                 <Item>
-                    {needPriceView ? JSON.stringify(priceObjectList[0]) : null}
+                    {needPriceView ? priceObjectList.map((obj, i) => {
+                        if (i < 5) {
+                            return <DisplayPrice data={obj} key={i}/>;
+                        }
+                    }) : null}
                 </Item>
             </Stack>
         </div>
