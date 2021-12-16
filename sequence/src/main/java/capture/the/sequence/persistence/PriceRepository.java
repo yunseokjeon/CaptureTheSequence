@@ -24,4 +24,7 @@ public interface PriceRepository extends JpaRepository<PriceEntity, Long> {
     @Query("select PE from PriceEntity PE where PE.user = :user")
     List<PriceEntity> findAllByUser(@Param("user") UserEntity user);
 
+    @Query("select PE from PriceEntity PE where PE.user = :user and PE.itemName = :item order by PE.marketDate")
+    List<PriceEntity> getCalculationMaterial(@Param("user") UserEntity user, @Param("item") String item);
+
 }
