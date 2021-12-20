@@ -124,7 +124,7 @@ export async function getPossessionItems() {
     const accessToken = localStorage.getItem("ACCESS_TOKEN");
 
     const headers = {
-        'Content-Type': "multipart/form-data",
+        'Content-Type': "application/json",
         'Authorization': 'Bearer ' + accessToken
     };
 
@@ -132,5 +132,21 @@ export async function getPossessionItems() {
         .then(res => {
             return res.data;
         });
+    return result;
+}
+
+export async function calculatePyramiding(obj) {
+    const accessToken = localStorage.getItem("ACCESS_TOKEN");
+
+    const headers = {
+        'Content-Type': "application/json",
+        'Authorization': 'Bearer ' + accessToken
+    };
+
+    let result = await axios.post(API_BASE_URL + "/strategy/getPyramidingKelly"
+        , obj, {headers: headers})
+        .then(res => {
+            return res.data;
+        })
     return result;
 }

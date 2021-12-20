@@ -174,7 +174,8 @@ public class PyramidingPosition {
 
         KellyDTO kellyDTO = KellyDTO.builder()
                 .kellyRatio(this.kellyRatio)
-                .kellyMap(this.kellyMap)
+                .kellyXAxis(new ArrayList<>(this.kellyMap.keySet()))
+                .kellyYAxis(new ArrayList<>(this.kellyMap.values()))
                 .capitalGrowth(this.capitalGrowth)
                 .build();
         return kellyDTO;

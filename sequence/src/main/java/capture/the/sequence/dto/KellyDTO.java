@@ -16,6 +16,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class KellyDTO {
     double kellyRatio;
-    Map<Double, Double> kellyMap = new HashMap<>();
+    List<Double> kellyXAxis = new ArrayList<>();
+    List<Double> kellyYAxis = new ArrayList<>();
     private List<Double> capitalGrowth = new ArrayList<>();
 }
