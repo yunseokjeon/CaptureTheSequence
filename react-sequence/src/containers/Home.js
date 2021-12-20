@@ -1,6 +1,7 @@
 import * as React from 'react';
 import LogoMenu from "./LogoMenu";
 import FileView from "./FileView";
+import SimulationView from "./SimulationView";
 
 const Home = () => {
 
@@ -23,7 +24,7 @@ const Home = () => {
             <LogoMenu fileViewCallback={activateFileView}
                       simulationViewCallback={activateSimulationView}/>
             {isFileView ? <FileView/> : null}
-            {isSimulationView ? "SimulationView" : null}
+            {isSimulationView ? <SimulationView/> : null}
 
         </div>
     );

@@ -108,6 +108,29 @@ export async function sendExcel(formData) {
     });
 
     return result;
-
 }
 
+export async function getStrategies() {
+
+    let result = await axios.get(API_BASE_URL + "/strategy/getStrategies")
+        .then(res => {
+            return res.data;
+        })
+    return result;
+}
+
+export async function getPossessionItems() {
+
+    const accessToken = localStorage.getItem("ACCESS_TOKEN");
+
+    const headers = {
+        'Content-Type': "multipart/form-data",
+        'Authorization': 'Bearer ' + accessToken
+    };
+
+    let result = await axios.get(API_BASE_URL + "/strategy/getPossessionItems", {headers: headers})
+        .then(res => {
+            return res.data;
+        });
+    return result;
+}
