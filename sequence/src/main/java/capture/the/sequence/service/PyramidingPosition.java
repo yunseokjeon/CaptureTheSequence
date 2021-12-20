@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.HttpServlet;
 import java.util.*;
 
 @Data
@@ -147,7 +149,7 @@ public class PyramidingPosition {
             for (int i = 0; i < earningsRates.size(); i++) {
 
                 if (earningsRates.get(i) <= -0.5) {
-                    y += (((double) 1 / (double) earningsRates.size())) * Math.log(1 + f * 0);
+                    y += (((double) 1 / (double) earningsRates.size())) * Math.log(0.1);
                 } else {
                     y += ((double) 1 / (double) earningsRates.size()) * Math.log(1 + f * earningsRates.get(i));
                 }
@@ -177,6 +179,7 @@ public class PyramidingPosition {
                 .build();
         return kellyDTO;
     }
+
 
 
 }
