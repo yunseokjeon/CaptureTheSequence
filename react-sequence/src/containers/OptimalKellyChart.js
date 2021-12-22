@@ -2,10 +2,6 @@ import {ResponsiveLine} from '@nivo/line'
 
 const OptimalKellyChart = ({data}) => {
 
-    console.log("=================");
-    console.log(data);
-    console.log("=================");
-
     return (<ResponsiveLine
         data={data}
         margin={{top: 50, right: 110, bottom: 50, left: 60}}
