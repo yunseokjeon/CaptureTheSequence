@@ -33,25 +33,21 @@ const LoginContainer = () => {
 
     return (
 
-        <Container component="main" maxWidth="xs" style={{ marginTop: "8%" }}>
+        <Container component="main" maxWidth="xs" style={{ marginTop: "10%" }} fixed>
 
-            <Grid container spacing={2} columns={16}>
-                <Grid item xs={2}>
+            <Grid container spacing={5} direction="column">
+                <Grid item xs={12}>
                     <Typography component="h5" variant="h5">CAPTURE THE SEQUENCE </Typography>
                 </Grid>
 
-                <Grid item xs={8}></Grid>
-
-                <Grid item xs={2}><Link href="/signup"><Typography component="h5" variant="h5">회원가입 </Typography></Link></Grid>
-            </Grid>
-
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <Typography component="h1" variant="h5">
+                <Grid item xs={10}>
+                    <Typography component="subtitle1" variant="subtitle1">
                         로그인
                     </Typography>
                 </Grid>
             </Grid>
+
+
 
             <form noValidate onSubmit={handleSubmit}>
                 {/* {" "} */}
@@ -92,6 +88,10 @@ const LoginContainer = () => {
                     </Grid>
                 </Grid>
             </form>
+
+            <Grid container direction="column" alignItems="flex-end">
+                <Grid item xs={4}><Link href="/signup"><Typography component="subtitle1" variant="subtitle1" align="right">회원가입 </Typography></Link></Grid>
+            </Grid>
 
         </Container >
 

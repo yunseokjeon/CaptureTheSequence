@@ -32,20 +32,20 @@ const DisplayUser = (inputUser) => {
     return (
 
         <Grid container spacing={2}>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
                 <Typography>
                     {user.email}
                 </Typography>
             </Grid>
 
-            <Grid item xs={3}>
-                <Typography variant="h6">
+            <Grid item xs={2}>
+                <Typography variant="subtitle1">
                     {user.username}
                 </Typography>
             </Grid>
 
-            <Grid item xs={4}>
-                <Typography variant="h6">
+            <Grid item xs={2}>
+                <Typography variant="subtitle1">
                     {user.created_at.substring(0, 10)}
                 </Typography>
             </Grid>

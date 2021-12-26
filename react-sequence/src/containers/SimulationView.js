@@ -12,6 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import {Typography} from "@mui/material";
+import {Grid} from "@material-ui/core";
 
 const refineDataForOptimalKelly = (kellyXAxis, kellyYAxis) => {
     let arr = [];
@@ -96,55 +97,58 @@ const SimulationView = () => {
     return (
 
         <div>
-            <Box sx={{minWidth: 60}}>
-                <FormControl fullWidth>
-                    <InputLabel id="strategies">보유 전략</InputLabel>
-                    <Select
-                        labelId="strategy"
-                        id="strategy"
-                        value={strategies[0]}
-                        label="strategy"
-                        onChange={handleStrategyChange}
-                    >
-                        {strategies.map((obj, i) => {
-                            return <MenuItem value={obj} key={i}>{obj.strategy}</MenuItem>
-                        })}
+            <Grid container spacing={5} direction="column">
+                <Grid item>
+                    <Box sx={{width: 150, height: 20}}>
+                        <FormControl fullWidth>
+                            <InputLabel id="strategies">보유 전략</InputLabel>
+                            <Select
+                                labelId="strategy"
+                                id="strategy"
+                                value={strategies[0]}
+                                label="strategy"
+                                onChange={handleStrategyChange}
+                            >
+                                {strategies.map((obj, i) => {
+                                    return <MenuItem value={obj} key={i}>{obj.strategy}</MenuItem>
+                                })}
 
-                    </Select>
-                </FormControl>
-            </Box>
+                            </Select>
+                        </FormControl>
+                    </Box>
+                </Grid>
+                <div>
+                    <Typography variant="subtitle1" gutterBottom component="div">
+                        {explanation}
+                    </Typography>
+                </div>
 
-            <div>
-                <Typography variant="subtitle1" gutterBottom component="div">
-                    {explanation}
-                </Typography>
-            </div>
+                <Box sx={{minWidth: 60}}>
+                    <FormControl fullWidth>
+                        <InputLabel id="strategies">보유 종목</InputLabel>
+                        <Select
+                            labelId="strategy"
+                            id="strategy"
+                            value={items[0]}
+                            label="strategy"
+                            onChange={handleItemChange}
+                        >
+                            {items.map((obj, i) => {
+                                return <MenuItem value={obj} key={i}>{obj}</MenuItem>
+                            })}
 
-            <Box sx={{minWidth: 60}}>
-                <FormControl fullWidth>
-                    <InputLabel id="strategies">보유 종목</InputLabel>
-                    <Select
-                        labelId="strategy"
-                        id="strategy"
-                        value={items[0]}
-                        label="strategy"
-                        onChange={handleItemChange}
-                    >
-                        {items.map((obj, i) => {
-                            return <MenuItem value={obj} key={i}>{obj}</MenuItem>
-                        })}
+                        </Select>
+                    </FormControl>
+                </Box>
 
-                    </Select>
-                </FormControl>
-            </Box>
+                <button onClick={calculateKelly}>켈리 비율 계산</button>
 
-            <button onClick={calculateKelly}>켈리 비율 계산</button>
+                <div className={"optimalDiv"}>
+                    <OptimalKellyChart data={optimalData}/>
+                </div>
 
-            <div className={"optimalDiv"}>
-                <OptimalKellyChart data={optimalData}/>
-            </div>
-
-            <div>최적 베팅 비율은 {kellyRatio} 입니다.</div>
+                <div>최적 베팅 비율은 {kellyRatio} 입니다.</div>
+            </Grid>
         </div>
 
 

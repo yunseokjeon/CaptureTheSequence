@@ -9,7 +9,7 @@ import {
     Container,
     Typography,
     Swith,
-    Button
+    Button, Link
 } from "@material-ui/core";
 import { signout } from "../service/ApiService";
 
@@ -38,25 +38,30 @@ const AdminContainer = () => {
 
     return (
         <div>
-            <Container component="main" maxWidth="xs" style={{ marginTop: "8%" }}>
+            <Grid item xs={2}><Link href="/"><Typography component="subtitle1" variant="subtitle1">메인화면</Typography></Link></Grid>
+
+            <Container component="main" style={{ marginTop: "5%" }}>
                 <Grid container spacing={2} columns={16}>
-                    <Grid item xs={2}>
+                    <Grid item xs={10}>
                         <Typography component="h5" variant="h5">CAPTURE THE SEQUENCE </Typography>
                     </Grid>
 
-                    <Grid item xs={8}></Grid>
-
-                    <Grid item xs={2}><Button
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        onClick={signout}>로그아웃</Button></Grid>
                 </Grid>
-            </Container>
             {/* {JSON.stringify(users)} */}
             {users.map((user, i) => {
                 return <DisplayUser user={user} key={i} />
             })}
+
+
+                <Grid item xs={2}><Button
+                alignItems="flex-end"
+                variant="contained"
+                color="primary"
+                onClick={signout}>로그아웃</Button>
+            </Grid>
+
+
+            </Container>
         </div>
     )
 

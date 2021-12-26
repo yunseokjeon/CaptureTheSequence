@@ -13,6 +13,7 @@ import {getPriceTableCategoryList} from "../service/ApiService";
 import {sendExcel} from "../service/ApiService";
 import DisplayPrice from "./DisplayPrice";
 import produce from "immer";
+import {Container, Grid, Typography} from "@material-ui/core";
 
 
 const Item = styled(Paper)(({theme}) => ({
@@ -62,10 +63,13 @@ const FileView = () => {
 
     return (
         <div>
-            <Stack spacing={2}>
-                <Item>Excel 파일 업로드</Item>
-                <Item>
-                    <Box sx={{minWidth: 120}}>
+            <Container style={{ margin: "2%" }} spacing={5}>
+            <Grid container spacing={5} direction="column">
+                <Grid Item xs={5}>
+                    <Typography component="h6" variant="h6">Excel 파일 업로드</Typography>
+                </Grid>
+                <Grid item>
+                    <Box sx={{width: 150, height: 20}}>
                         <FormControl fullWidth>
                             <InputLabel id="priceTableCategory">테이블명 선택</InputLabel>
                             <Select
@@ -81,22 +85,23 @@ const FileView = () => {
                             </Select>
                         </FormControl>
                     </Box>
-                </Item>
-                <Item> '2020-12-09 | 종목 코드 | 시가 | 종가' 형식의 데이터여야 합니다.</Item>
-                <Item>
+                </Grid>
+                <Grid item variant="subtitle2"> 테이블 입력 스키마는 'YYYY-MM-DD | 종목 코드 | 시가 | 종가' 입니다. 파일이 업로드 되면 하단에 샘플이 출력됩니다.</Grid>
+                <Grid item>
                     <input type="file" onChange={onFileChange}/>
                     <button onClick={onFileUpload}>
                         Upload!
                     </button>
-                </Item>
-                <Item>
+                </Grid>
+                <Grid item>
                     {needPriceView ? priceObjectList.map((obj, i) => {
                         if (i < 5) {
                             return <DisplayPrice data={obj} key={i}/>;
                         }
                     }) : null}
-                </Item>
-            </Stack>
+                </Grid>
+            </Grid>
+            </Container>
         </div>
     );
 }

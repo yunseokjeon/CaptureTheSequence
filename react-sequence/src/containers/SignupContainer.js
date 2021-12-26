@@ -73,21 +73,20 @@ const SignupContainer = () => {
         window.location.href = "/";
     }
 
-    return (<Container component="main" maxWidth="xs" style={{ marginTop: "8%" }}>
+    return (<Container component="main" maxWidth="xs" style={{ marginTop: "10%" }}>
 
-        <Grid container spacing={2} columns={16}>
-            <Grid item xs={2}>
+        <Grid container spacing={5} direction="column">
+            <Grid item xs={12}>
                 <Typography component="h5" variant="h5">CAPTURE THE SEQUENCE </Typography>
             </Grid>
 
             <Grid item xs={8}></Grid>
 
-            <Grid item xs={2}><Link href="/login"><Typography component="h5" variant="h5">로그인 </Typography></Link></Grid>
         </Grid>
 
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Typography component="h1" variant="h5">
+                <Typography component="subtitle1" variant="subtitle1">
                     회원가입
                 </Typography>
             </Grid>
@@ -156,6 +155,9 @@ const SignupContainer = () => {
             </Grid>
         </form>
 
+        <Grid container direction="column" alignItems="flex-end">
+            <Grid item xs={4}><Link href="/login"><Typography component="subtitle1" variant="subtitle1" align="right">로그인 </Typography></Link></Grid>
+        </Grid>
     </Container >);
 }
 
