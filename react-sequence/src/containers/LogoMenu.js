@@ -1,46 +1,59 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
+import {Grid, Menu} from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import {signout} from "../service/ApiService";
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import { useState } from "react";
+import { Tabs, Tab } from "@material-ui/core";
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import MenuList from '@mui/material/MenuList';
+import { makeStyles } from "@material-ui/core/styles";
+import Header from "./Header.js";
+
 
 const LogoMenu = (props) => {
 
-
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
+    const [auth, setAuth] = React.useState(true);
+    const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
     const handleClose = () => {
         setAnchorEl(null);
     };
 
+    const [index, setIndex] = useState(0);
+
+    function changeTab(event, index) {
+        setIndex(index);
+    }
+
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            flexGrow: 1,
+            backgroundColor: theme.palette.background.paper
+        },
+        leftAlign: {
+            marginLeft: "auto"
+        }
+    }));
+    const classes = useStyles();
 
     return (
         <div>
-            <Button
-                id="basic-button"
-                aria-controls="basic-menu"
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                onClick={handleClick}
-            >
-                Capture The Sequence
-            </Button>
-            <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                }}
-            >
-                <MenuItem onClick={props.fileViewCallback}>파일 업로드</MenuItem>
-                <MenuItem onClick={props.simulationViewCallback}>전략 시뮬레이션</MenuItem>
-                <MenuItem onClick={signout}>로그아웃</MenuItem>
-            </Menu>
+            <Header/>
+                <Container maxWidth="xl">
+                    <Tabs value={index} onChange={changeTab} className={classes.rightAlign}>
+                        <Tab label="데이터업로드" onClick={props.fileViewCallback}/>
+                        <Tab label="전략 시뮬레이션" onClick={props.simulationViewCallback}/>
+                    </Tabs>
+                </Container>
         </div>
     );
 }

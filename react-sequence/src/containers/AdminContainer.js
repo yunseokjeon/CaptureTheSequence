@@ -12,6 +12,7 @@ import {
     Button, Link
 } from "@material-ui/core";
 import { signout } from "../service/ApiService";
+import Header from "./Header.js";
 
 
 const AdminContainer = () => {
@@ -38,12 +39,11 @@ const AdminContainer = () => {
 
     return (
         <div>
-            <Grid item xs={2}><Link href="/"><Typography component="subtitle1" variant="subtitle1">메인화면</Typography></Link></Grid>
-
+            <Header/>
             <Container component="main" style={{ marginTop: "5%" }}>
                 <Grid container spacing={2} columns={16}>
                     <Grid item xs={10}>
-                        <Typography component="h5" variant="h5">CAPTURE THE SEQUENCE </Typography>
+                        <Typography component="h5" variant="h5">Capture The Sequence</Typography>
                     </Grid>
 
                 </Grid>
@@ -51,15 +51,6 @@ const AdminContainer = () => {
             {users.map((user, i) => {
                 return <DisplayUser user={user} key={i} />
             })}
-
-
-                <Grid item xs={2}><Button
-                alignItems="flex-end"
-                variant="contained"
-                color="primary"
-                onClick={signout}>로그아웃</Button>
-            </Grid>
-
 
             </Container>
         </div>
