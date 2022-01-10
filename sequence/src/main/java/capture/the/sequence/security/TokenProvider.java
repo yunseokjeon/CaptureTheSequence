@@ -20,11 +20,10 @@ public class TokenProvider {
     private static final String SECRET_KEY = "NMA8JPctFuna59f5";
 
     public String create(UserEntity userEntity) {
-        // 기한 지금으로부터 1일로 설정
-
+        // 기한 지금으로부터 30일로 설정
         Date expiryDate = Date.from(
                 Instant.now()
-                        .plus(1, ChronoUnit.DAYS));
+                        .plus(30, ChronoUnit.DAYS));
 
         /*
         Date expiryDate = Date.from(

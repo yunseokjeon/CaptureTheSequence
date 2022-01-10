@@ -3,6 +3,7 @@
 ## POST : /auth/signup
 
 ### Requests example
+회원가입을 위한 API로 다음과 같은 정보를 http body에 넣어서 전송.
 
 ```JSON
 {
@@ -28,6 +29,7 @@
 ```
 
 ## POST : /auth/signin
+로그인을 위한 API로, 다음과 같은 JSON을 http body에 담아서 전송.
 
 ### Requests example
 ```JSON
@@ -54,6 +56,7 @@
 ## GET : /auth/getAllUerList
 
 ### Requests example
+회원가입을 신청한 사용자 목록을 조회한 API로, 로그인 할 때 받은 JWT를 header에 담아서 전송.
 
 ```JSON
 Bearer Token : eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0MDI4YjJjMTdlMmUxMTA3MDE3ZTJlMTEwYWZkMDAwMCIsImlzcyI6IkNUUyIsImlhdCI6MTY0MTQ1MDU2NywiZXhwIjoxNjQxNTM2OTY3fQ.4EWSq0CH2qDrorrlQIA5A4WDCzpl5pAl7d0NdPztZmww7SZHhhIduVj40axE-raLkSTZzD2BaRkt5JK6Qei6mA
@@ -132,6 +135,7 @@ Bearer Token : eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0MDI4YjJjMTdlMmUxMTA3MDE3ZTJlMTEw
 ## POST : /auth/activateAccount
 
 ### Requests example
+회원가입 승인을 위한 API로, header에 JWT를 넣어서, 승인할 사용자의 정보 JSON과 함께 전송.
 
 ```JSON
 Bearer Token : eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0MDI4YjJjMTdlMmUxMTA3MDE3ZTJlMTEwYWZkMDAwMCIsImlzcyI6IkNUUyIsImlhdCI6MTY0MTQ1MDU2NywiZXhwIjoxNjQxNTM2OTY3fQ.4EWSq0CH2qDrorrlQIA5A4WDCzpl5pAl7d0NdPztZmww7SZHhhIduVj40axE-raLkSTZzD2BaRkt5JK6Qei6mA
@@ -159,6 +163,7 @@ Bearer Token : eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0MDI4YjJjMTdlMmUxMTA3MDE3ZTJlMTEw
 ## POST : /file/excel/read
 
 ### Requests example
+엑셀에 담긴 데이터를 DB에 입력하기 위한 API로, JWT와 함께, 엑셀 파일을 form data 형식으로 전송.
 
 ```JSON
 Bearer Token : eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0MDI4YjJjMTdlMmUxMTA3MDE3ZTJlMTEwYWZkMDAwMCIsImlzcyI6IkNUUyIsImlhdCI6MTY0MTQ1MDU2NywiZXhwIjoxNjQxNTM2OTY3fQ.4EWSq0CH2qDrorrlQIA5A4WDCzpl5pAl7d0NdPztZmww7SZHhhIduVj40axE-raLkSTZzD2BaRkt5JK6Qei6mA
@@ -200,6 +205,7 @@ priceTableCategory : STOCK
 ## GET : /file/getPriceTableCategoryList
 
 ### Requests example
+특별한 자격이 요구되지 않는 API로, 저장이 가능한 영역의 목록을 조회할 수 있다.
 
 ```JSON
 None
@@ -216,6 +222,7 @@ None
 ## GET : /strategy/getStrategies
 
 ### Requests example
+거래 전략의 목록을 조회할 수 있다.
 
 ```JSON
 None
@@ -235,6 +242,7 @@ None
 ## GET : /strategy/getPossessionItems
 
 ### Requests example
+JWT를 전송하면, 자신이 보유한 종목의 목록을 확인할 수 있는 API이다.
 
 ```JSON
 Bearer Token : eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0MDI4YjJjMTdlMmUxMTA3MDE3ZTJlMTEwYWZkMDAwMCIsImlzcyI6IkNUUyIsImlhdCI6MTY0MTQ1MDU2NywiZXhwIjoxNjQxNTM2OTY3fQ.4EWSq0CH2qDrorrlQIA5A4WDCzpl5pAl7d0NdPztZmww7SZHhhIduVj40axE-raLkSTZzD2BaRkt5JK6Qei6mA
@@ -251,6 +259,8 @@ Bearer Token : eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0MDI4YjJjMTdlMmUxMTA3MDE3ZTJlMTEw
 ## POST : /strategy/getPyramidingKelly
 
 ### Requests example
+JWT와 함께, 종목의 이름을 패러미터로 전송하면, 피라미딩 거래 전략 시뮬레이션의 결과를 받을 수 있는 API이다.
+
 ```JSON
 Param : itemName=TSLA
 
