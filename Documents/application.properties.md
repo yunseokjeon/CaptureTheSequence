@@ -12,8 +12,9 @@ spring.jpa.properties.hibernate.format_sql=true
 #spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL55Dialect
 ```
 
-
 src/main/resources/static
+
 src/main/resources/templates
+
 src/main/resources/application.properties
 
