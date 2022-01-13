@@ -1,5 +1,5 @@
 ### Security
-application.properties
+application-prod.properties
 InitMember.java
 
 ### Java ###
