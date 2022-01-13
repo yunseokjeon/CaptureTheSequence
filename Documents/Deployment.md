@@ -73,4 +73,64 @@ MySQL [(none)]> show databases;
 5 rows in set (0.01 sec)
 ```
 
+# Spring Boot Docker image
+
+```
+// application.properties
+
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://RDS의 Endpoint:3306/CaptureTheSequence?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&serverTimezone=UTC
+spring.datasource.username=
+spring.datasource.password=
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.format_sql=true
+```
+
+build.gradle과 같은 위치에 Dockerfile 생성.
+
+```Dockerfile
+# Start with a base image containing Java runtime
+#FROM java:11
+FROM openjdk:11 as build
+
+# Add Author info
+LABEL maintainer="yunseok.jeon1877@gmail.com"
+
+# Add a volume to /tmp
+VOLUME /tmp
+
+# Make port 8080 available to the world outside this container
+EXPOSE 8080
+
+# The application's jar file
+ARG JAR_FILE=build/libs/sequence-0.0.1-SNAPSHOT.jar
+
+# Add the application's jar to the container
+ADD ${JAR_FILE} cts.jar
+
+# Run the jar file
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/cts.jar"]
+
+```
+
+```bash
+$ docker build -t cts .
+$ docker run -p 8080:8080 cts
+```
+
+Dockerizing 없이 빌드하면 문제없이 작동하는데, 빌드한 도커 이미지를 실행하면 다음과 같은 에러가 발생함.
+
+```
+2022-01-13 10:48:19.844  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-01-13 10:48:20.935 ERROR 1 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Exception during pool initialization.
+
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+        at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174) ~[mysql-connector-java-8.0.27.jar!/:8.0.27]
+
+```
+
+
 
