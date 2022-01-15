@@ -131,6 +131,22 @@ The last packet sent successfully to the server was 0 milliseconds ago. The driv
         at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174) ~[mysql-connector-java-8.0.27.jar!/:8.0.27]
 
 ```
+application.properties를 다음과 같이 수정.
 
+```
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://springbootwebservice.cbslkzqfwt2i.ap-northeast-2.rds.amazonaws.com:3306/CaptureTheSequence
+spring.datasource.username=
+spring.datasource.password=
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=create
+spring.jpa.properties.hibernate.format_sql=true
+```
+```bash
+$ docker run --network host cts
+$ docker run -p 8080:8080 cts
 
-
+# 모두 아래와 같은 문제 발생
+# com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+# The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+```
