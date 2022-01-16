@@ -149,4 +149,11 @@ $ docker run -p 8080:8080 cts
 # 모두 아래와 같은 문제 발생
 # com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
 # The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+
+$ gradlew clean
+$ gradlew.bat build
+$ docker build -t cts .
+$ docker run -p 8080:8080 cts 
+
+# clean build를 하니 문제 해결.
 ```
