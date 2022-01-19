@@ -157,3 +157,58 @@ $ docker run -p 8080:8080 cts
 
 # clean build를 하니 문제 해결.
 ```
+
+# ECR에 Docker image 올리기
+
+710847041495.dkr.ecr.ap-northeast-2.amazonaws.com/cts_container 라는 이름으로 ECR 생성.
+
+```bash
+#  View push commands -> Push commands for cts_container
+$ sudo apt-get update
+$ sudo apt-get install awscli
+$ aws --version
+
+$ aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 710847041495.dkr.ecr.ap-northeast-2.amazonaws.com
+
+$ docker tag cts:latest 710847041495.dkr.ecr.ap-northeast-2.amazonaws.com/cts_container:latest
+
+$ docker push 710847041495.dkr.ecr.ap-northeast-2.amazonaws.com/cts_container:latest
+
+# EC2
+$ sudo yum -y upgrade
+$ sudo yum -y install docker
+$ docker -v
+
+$ sudo systemctl status docker
+$ sudo systemctl start docker
+
+$ sudo yum install awscli
+$ sudo yum install amazon-ecr-credential-helper
+$ mkdir .docker
+$ nano ~/.docker/config.json
+
+{
+  	"auths" : {
+		"credHelpers": {
+			"public.ecr.aws": "ecr-login",
+			"710847041495.dkr.ecr.ap-northeast-2.amazonaws.com": "ecr-login"
+		}
+    }
+}
+
+
+
+$ aws config 
+$ aws ecr get-login-password --region ap-northeast-2
+
+$ sudo docker login -u AWS -p eyJwYXlsb2FkIjoiU013Z1c5MVRUbE5QbzZBQlh4cVMyTEVaM2w3eGxrakwvSGNIakZBVlhCODgxSG9SYVJEdTQ0U2ZzbnRUZkN6VEhyVHA0SmdSVGY3N084N21nSE9LVXNHOGlNaWVGU0J5TmdBNEtqNFdGOUN3YXhDaHNEcVE4U1Vpd1JtOWxQckpGaFVXMzRMMXl6ZUpXaGx0N2k1NTZlelliMWtQZzlsbFJKdC95OFJlRFBOd085M09KM1dxUU82QlhiWjg3Um1rTWc2dlRqUmlhZDVxWTR2Vkt3MFZqUFBnMzlkelJ1VTVvVkM2YmVTd0YvRW9XVWlqU3NhSkd6Sy94bEtueDhlUCtWYlQwczVyTW5WV3VWVmQ1cjJGZU9tMUx3RG5FeG1vdjNqYk9YZk5XOWJ5bXNVb2JDNXFHVkZSanV3cVNxSEdPOW43MWZJNzJqL0IzbjNXTGdlemFiRlV2QzhETlRlSXZZa3A4SGx2ejFrNjJ5SVRNNGJ4QU9JV1NVbjVqUEJrVUtvdGZMNXdPVUNzTDdpbVBudTNOZWJOSUw3bEZwMVdjTW9MZjdrQUxzT0lBOW9nejFKSlVjOUo1U1dlZklDUVpSbVY5U3N2clFZS3o0NGhpRjFpUzNUUHNlWUdLaXZ5am90d0VxTE5SU1hUS2dWR0tQNC96VWRPWG54eWNrcHFvb2RlSHVpRm1kSlFnSVRZMmxrWEZ6d0VtRWF4M3VxVlBWeXgvbG1nUGJBL1hUR1BwNW1ieUIzdXIxTTF5eGNVVDVORENvSGNSQXBLSjFvN2w1R2N4QUs0YllmVTVFMFRlTjJxNjlpTUsvc0VLcUdYZVY5bms2M2g3NTNVWXhqQWo0YVk0amtyZEcxeEJhWGFYZlJsMWxHcVo1Vm8ybTdvWmZTWEcwalNqWFZVdTJJK1JTOFVDelcyQVZNQnhQdGhNQnp1a2xJcEwwYUdtTkxLTWJEdG9EcXlUWW5ZcXFOOFQyRVIwQ3dYTTVFSUxiTXplVmFGdXFNVFpEaTB5TUFKcGhRMHl4V3BKU1JkbkZEejQ4MndiZnFZT1Z0QVMyUTBqZzNhS2VCTUdFemVvQ0lNbUhYcmVkdlF2dTJiTG9URUs4SnJoNjZZbjlNWklJZ09MQi9FYW8vVzc4Rzd1TXM2dE5ITEN3VmUzZHhLZi9tbVQvZ3ZOQzZYY0FVblNObjdwTlNYejlEVTZnOStXdFM3Wk1FV2g1bWlUZ2tMQ0VhM0tqcjBNREdrM0w0S3FnYlQ1UnFybHJxTVlpdEFCWm5HWDRHT0V5ZlptZ2VqTmc1T0RrY1hhQW54OTI0TC90VHp5VWdUb3QybXVTTjhZTVk0VHZINFZlcFgyWUFNYlhScXpuNVJ6MlJsVkJDaGhBNEdzcXFqY1hobWhPOEl6WjBxK0dSNi9tNXFUVnFoZG5QSmkzRGs5RnM9IiwiZGF0YWtleSI6IkFRSUJBSGhBT3NhVzJnWk4wOVdOdE5Ha1ljOHFwMTF4U2haL2RyRUVveTFIazhMWFdnR29UQ3A1OUF5MVdZT3lqK1luU0dNSkFBQUFmakI4QmdrcWhraUc5dzBCQndhZ2J6QnRBZ0VBTUdnR0NTcUdTSWIzRFFFSEFUQWVCZ2xnaGtnQlpRTUVBUzR3RVFRTVpPNVAwWkxlbW15Vjl1T3BBZ0VRZ0R2eDU0VWFQaHlIMnRyU3NBTk9QeEZhTWlxb0puNW5HbXFyblR6aGNxLytFdXBHbnhmQzNvNWJycU1YK0dtVm01WVQxV255T2ZLUlNOV2VrZz09IiwidmVyc2lvbiI6IjIiLCJ0eXBlIjoiREFUQV9LRVkiLCJleHBpcmF0aW9uIjoxNjQyNTk5MzY0fQ== 710847041495.dkr.ecr.ap-northeast-2.amazonaws.com
+
+
+$ sudo docker pull 710847041495.dkr.ecr.ap-northeast-2.amazonaws.com/cts_container:latest
+
+$ sudo docker run -p 8080:8080 8159f6bff7b9
+
+# http://52.78.42.7:8080/strategy/getStrategies [GET]
+
+```
+
