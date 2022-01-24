@@ -212,3 +212,43 @@ $ sudo docker run -p 8080:8080 8159f6bff7b9
 
 ```
 
+# Dockerizing React app
+
+```bash
+# .dockerignore
+
+.git
+.gitignore
+/node_modules
+Dockerfile
+README.md
+
+
+# Dockerfile
+
+# pull the official base image  
+FROM node:16.13.0-alpine
+ 
+# set your working directory  
+WORKDIR /app  
+ 
+# add `/app/node_modules/.bin` to $PATH  
+ENV PATH /app/node_modules/.bin:$PATH  
+ 
+# install application dependencies  
+COPY package.json ./  
+COPY package-lock.json ./  
+RUN npm install
+RUN npm install react-scripts@3.0.1 -g
+ 
+# add app  
+COPY . ./  
+ 
+# will start app  
+CMD ["npm", "start"]
+```
+
+```bash
+$ docker build -t react_cts .
+$ docker run -p 8081:3000 --rm react_cts
+```
