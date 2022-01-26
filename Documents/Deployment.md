@@ -252,3 +252,23 @@ CMD ["npm", "start"]
 $ docker build -t react_cts .
 $ docker run -p 8081:3000 --rm react_cts
 ```
+
+public.ecr.aws/i5j0h7d2/react_cts ECR 생성.
+
+```bash
+# Push commands for react_cts
+$ aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/i5j0h7d2
+$ docker tag react_cts:latest public.ecr.aws/i5j0h7d2/react_cts:latest
+$ docker push public.ecr.aws/i5j0h7d2/react_cts:latest
+
+# EC2
+$ sudo systemctl status docker
+$ sudo systemctl start docker
+$ sudo docker pull public.ecr.aws/i5j0h7d2/react_cts
+
+# https://www.daleseo.com/docker-run/
+$ sudo docker container ps -a
+$ sudo docker start jolly_noyce
+$ sudo docker run -d -p 3000:3000 1dc50704d2c2
+$ sudo docker container ps
+```
