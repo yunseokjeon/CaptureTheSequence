@@ -206,7 +206,7 @@ $ sudo docker login -u AWS -p eyJwYXlsb2FkIjoiU013Z1c5MVRUbE5QbzZBQlh4cVMyTEVaM2
 
 $ sudo docker pull 710847041495.dkr.ecr.ap-northeast-2.amazonaws.com/cts_container:latest
 
-$ sudo docker run -p 8080:8080 8159f6bff7b9
+$ sudo docker run -p 8080:8080 a3beb3cd1a6e
 
 # http://52.78.42.7:8080/strategy/getStrategies [GET]
 
@@ -261,19 +261,11 @@ $ aws ecr-public get-login-password --region us-east-1 | docker login --username
 $ docker tag react_cts:latest public.ecr.aws/i5j0h7d2/react_cts:latest
 $ docker push public.ecr.aws/i5j0h7d2/react_cts:latest
 
-# EC2
-$ sudo systemctl status docker
-$ sudo systemctl start docker
-$ sudo docker pull public.ecr.aws/i5j0h7d2/react_cts
-
 # https://www.daleseo.com/docker-run/
-$ sudo docker container ps -a
-$ sudo docker start jolly_noyce
-$ sudo docker run -d -p 3000:3000 1dc50704d2c2
-$ sudo docker container ps
 ```
 
 React app을 위한 EC2 인스턴스 생성. EIP 등록. 
+
 ```bash
 # react-webservice.pem를 ~/.ssh 로 복사
 $ cd ~/.ssh
@@ -295,4 +287,16 @@ Host react-webservice
      IdentityFile ~/.ssh/react-webservice.pem
 
 $ ssh react-webservice
+$ sudo yum -y upgrade
+$ sudo yum -y install docker
+$ sudo systemctl status docker
+$ sudo systemctl start docker
+$ sudo yum install awscli
+$ sudo docker pull public.ecr.aws/i5j0h7d2/react_cts:latest
+$ sudo docker run -d -p 3000:3000 9ae62569d999
+
+# http://3.35.254.243:3000
+
+$ curl localhost:3000
+curl: (7) Failed to connect to localhost port 3000 after 1 ms: Connection refused
 ```
