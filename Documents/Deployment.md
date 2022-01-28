@@ -272,3 +272,27 @@ $ sudo docker start jolly_noyce
 $ sudo docker run -d -p 3000:3000 1dc50704d2c2
 $ sudo docker container ps
 ```
+
+React app을 위한 EC2 인스턴스 생성. EIP 등록. 
+```bash
+# react-webservice.pem를 ~/.ssh 로 복사
+$ cd ~/.ssh
+$ chmod 600 ./react-webservice.pem
+$ nano config
+
+#####################################################
+########## springboot-webservice
+Host springboot-webservice
+     HostName 52.78.42.7
+     User ec2-user
+     IdentityFile ~/.ssh/springboot-webservice.pem
+
+######################################################
+########## react-webservice
+Host react-webservice
+     HostName 3.35.254.243
+     User ec2-user
+     IdentityFile ~/.ssh/react-webservice.pem
+
+$ ssh react-webservice
+```
