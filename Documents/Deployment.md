@@ -331,3 +331,57 @@ $ sudo docker inspect aa0f28009ef7
 
 # Exit Code 1: Indicates failure due to application error
 ```
+package.json에서 
+
+```bash
+"scripts": {
+     # HOST=0.0.0.0 추가
+    "start": "set PORT=3000 && HOST=0.0.0.0 react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+```
+로 변경하였으나, "ExitCode": 1이 계속 나타남. https://sematext.com/blog/docker-logs-location/#toc-how-to-find-the-logs-3 참조해서 로그 분석.
+
+```bash
+$ sudo docker logs f39c0dff1fba
+
+> react-sequence@0.1.0 start
+> set PORT=3000 && HOST=0.0.0.0 react-scripts start
+
+Attempting to bind to HOST environment variable: 0.0.0.0
+If this was unintentional, check that you haven\'t mistakenly set it in your shell.
+Learn more here: https://cra.link/advanced-config
+
+(node:25) [DEP0148] DeprecationWarning: Use of deprecated folder mapping "./" in the "exports" field module resolution of the package at /app/node_modules/postcss-safe-parser/node_modules/postcss/package.json.
+Update this package.json to use a subpath pattern like "./*".
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ℹ ｢wds｣: Project is running at http://172.17.0.2/
+ℹ ｢wds｣: webpack output is served from
+ℹ ｢wds｣: Content not from webpack is served from /app/public
+ℹ ｢wds｣: 404s will fallback to /
+Starting the development server...
+
+Browserslist: caniuse-lite is outdated. Please run:
+npx browserslist@latest --update-db
+
+Why you should do it regularly:
+https://github.com/browserslist/browserslist#browsers-data-updating
+
+<--- Last few GCs --->
+
+[25:0x7f215d78f330]   106518 ms: Scavenge 463.7 (484.5) -> 463.7 (486.5) MB, 0.8 / 0.0 ms  (average mu = 0.480, current mu = 0.337) allocation failure
+[25:0x7f215d78f330]   106523 ms: Scavenge 464.3 (487.2) -> 464.3 (487.2) MB, 4.2 / 0.0 ms  (average mu = 0.480, current mu = 0.337) allocation failure
+[25:0x7f215d78f330]   107907 ms: Mark-sweep 500.8 (523.6) -> 498.5 (516.3) MB, 1163.0 / 0.1 ms  (average mu = 0.348, current mu = 0.181) allocation failure scavenge might not succeed
+
+
+<--- JS stacktrace --->
+
+FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory
+
+# EC2 메모리를 늘려서 해결.
+```
+
+
+
