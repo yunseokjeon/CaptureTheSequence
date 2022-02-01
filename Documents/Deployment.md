@@ -299,4 +299,35 @@ $ sudo docker run -d -p 3000:3000 9ae62569d999
 
 $ curl localhost:3000
 curl: (7) Failed to connect to localhost port 3000 after 1 ms: Connection refused
+
+$ sudo docker start angry_gauss
+
+$ sudo docker container ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED      STATUS         PORTS                                       NAMES
+aa0f28009ef7   9ae62569d999   "docker-entrypoint.s…"   3 days ago   Up 6 seconds   0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   angry_gauss
+
+$ curl localhost:3000
+curl: (52) Empty reply from server
+
+$ sudo docker container ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+$ sudo docker inspect aa0f28009ef7
+
+"State": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 1,
+            "Error": "",
+            "StartedAt": "2022-01-31T23:59:29.028179946Z",
+            "FinishedAt": "2022-02-01T00:00:41.895045238Z"
+        },
+
+
+# Exit Code 1: Indicates failure due to application error
 ```
