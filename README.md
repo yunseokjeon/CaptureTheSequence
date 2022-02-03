@@ -4,7 +4,7 @@
 - Backend : Spring Boot / JPA
 - Database : MySQL
 
-3.35.254.243:3000 에 접속하면 아래와 같은 로그인 화면을 만나게 됩니다.
+[Link](http://3.35.254.243:3000/) 에 접속하면 아래와 같은 로그인 화면을 만나게 됩니다.
 
 <img src="https://github.com/yunseokjeon/CaptureTheSequence/blob/master/Documents/images/02021.png?raw=true">
 
